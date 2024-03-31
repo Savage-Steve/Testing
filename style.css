@@ -1,0 +1,13 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+#cursorObj {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 16px;
+  height: 16px;
+  background-image: url("images/cursors/default.png");
+  background-size: contain;
+}
