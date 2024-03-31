@@ -8,6 +8,40 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   var manager = nipplejs.create(options);
+  var cursorObj = document.getElementById('cursorObj');
+  var mouseButton = document.getElementById('mouseButton');
+  var clickableElements = document.getElementsByClassName('clickable');
+  
+  var isButtonClicked = false;
+  
+  
+
+function isClickable() {
+  for (var i = 0; i < clickableElements.length; i++) {
+    var elementRect = clickableElements[i].getBoundingClientRect();
+    var cursorObjRect = cursorObj.getBoundingClientRect();
+
+    if (
+      cursorObjRect.left < elementRect.right &&
+      cursorObjRect.right > elementRect.left &&
+      cursorObjRect.top < elementRect.bottom &&
+      cursorObjRect.bottom > elementRect.top
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+  
+  var isClicked = false;
+  function handleButtonClick() {
+    isClicked = true;
+    wait(1000).then(() => {
+      isClicked = false;
+    })
+  }
+  mouseButton.addEventListener('click', handleButtonClick);
 
   manager.on('move', (evt, data) => {
   var angle = data.angle.radian;
@@ -16,20 +50,17 @@ window.addEventListener('DOMContentLoaded', () => {
   var xDisplacement = magnitude * Math.cos(angle);
   var yDisplacement = magnitude * Math.sin(angle);
     
-  var cursorObj = document.getElementById('cursorObj');
+  
   var currentLeft = parseFloat(cursorObj.style.left) || 0;
   var currentTop = parseFloat(cursorObj.style.top) || 0;
 
-  // Calculate the new position
   var newLeft = currentLeft + xDisplacement;
   var newTop = currentTop - yDisplacement;
 
-  // Get the screen dimensions
   var screenWidth = window.screen.width - cursorObj.offsetWidth;
   var screenOffsetY = window.screen.height - window.innerHeight;
   var screenHeight = window.screen.height - cursorObj.offsetHeight - screenOffsetY;
 
-  // Ensure the object stays within the screen bounds
   if (newLeft >= 0 && newLeft <= screenWidth) {
     cursorObj.style.left = newLeft + 'px';
   }
@@ -37,8 +68,11 @@ window.addEventListener('DOMContentLoaded', () => {
   if (newTop >= 0 && newTop <= screenHeight) {
     cursorObj.style.top = newTop + 'px';
   }
-
-  console.log(cursorObj.style.left, cursorObj.style.top);
+  if (isClickable() && isClicked) {
+    console.log('cursorObj is hovering over an element with the specified class');
+  } else {
+    console.log('object not clickable!);
+  }
 });
   var joystickBack = document.querySelector('#joystick-container').querySelector('#nipple_0_0').querySelector('.back');;
   var joystickFront = document.querySelector('#joystick-container').querySelector('#nipple_0_0').querySelector('.front')
