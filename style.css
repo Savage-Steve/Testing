@@ -11,3 +11,26 @@ html {
   background-image: url("images/cursors/default.png");
   background-size: contain;
 }
+#mouseObj {
+  left: 60%;
+  bottom: 15%;
+  height: 100px;
+  width: 100px;
+  background: rgb(29, 29, 29);
+  opacity: 0.5;
+  border-radius: 15%;
+  border-color: transparent;
+  position: absolute;
+  display: block;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+
+#highlight-box {
+  position: absolute;
+  background: rgba(0, 120, 250, 0.25);
+  border-radius: 10%;
+  border-color: rgba(0, 120, 250, 0.5);
+  border-style: solid;
+  border-width: 2.5px;
+}
